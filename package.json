@@ -1,0 +1,25 @@
+{
+  "name": "homework-7",
+  "version": "1.0.0",
+  "description": "GWU Bootcamp Homework 7",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jenellelangford/homework-7.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jenellelangford/homework-7/issues"
+  },
+  "homepage": "https://github.com/jenellelangford/homework-7#readme",
+  "dependencies": {
+    "inquirer": "^7.1.0"
+  }
+}
