@@ -17,6 +17,66 @@ const teamMembers = [];
 // This will be an array of the id values created for each object so there are no duplicates
 const idArray = [];
 
+// start()
+// Do you want to add a team member? If so, choose a type:
+   // Manager, Engineer, Intern, I'm Done
+   function start() {
+    inquirer.prompt([
+      {
+        type: "list",
+        message: "Choose an employee type:",
+        name: "type",
+        choices: [
+          "Manager",
+          "Engineer",
+          "Intern",
+          "Finished"
+        ]
+      }
+    ]).then( response => {
+      if( response.type === "manager" ){
+        createEmployee("manager")
+      }
+    })
+  }
+  // createManager()
+     // ask all the manager questions, when done, go back to start()
+  function createEmployee(employeeType){
+    inquirer.prompt([
+      {
+        type: "input",
+        message: "Enter name:",
+        name: "name"
+      }
+    ]).then( genericResponses => {
+      if( employeeType === "manager" ){
+        createManager(genericResponses)
+      }
+    });
+  }
+  function createManager(genericData){
+    inquirer.prompt([
+      {
+        type: "input",
+        message: "Enter name:",
+        name: "name"
+      }
+    ]).then( response => {
+      // process all the answers
+      const managerObj = new Manager(genericData.name, genericData.email, response.officeNumber  )
+      teamMembers.push(managerObj)
+      start();
+    })
+  }
+  // STUDENT: This function will call the render function required near the top (line 12), 
+  // and pass INTO it the teamMembers area; from there, write the HTML returned back to a file 
+  // in a directory called output.
+  function renderHtmlPage(){
+    const html = render(teamMembers)
+    fs.writeFile("output/index.htnl", html, err => {
+    })
+  }
+
 
 // STUDENT: This function generates all the questions for creating the manager. You need to add more to this.
 function createManager(){
@@ -34,13 +94,48 @@ function createManager(){
         return "Please enter at least one character.";
       }
     },
-
-    // STUDENT: Add other questions here!
-
-
+  // STUDENT: Add other questions here!
+    {
+      type: "input",
+      name: "managerId",
+      message: "What is your manager's ID?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "managerEmail",
+      message: "What is your manager's email?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "managerNumber",
+      message: "What is your manager's office number?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    }
     ]).then(answers => {
       // STUDENT: Process the response by instatiating a new object in the Manager class
+      const manager = new Manager {
 
+      }
 
       // Now call the next question set
       createTeam();
@@ -64,10 +159,60 @@ function createTeam() {
 function createEngineer() {
   inquirer.prompt([
     // STUDENT:  Engineer questions
-
+    {
+      type: "input",
+      name: "engineerName",
+      message: "What is your engineer's name?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "engineerId",
+      message: "What is your engineer's ID?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "engineerEmail",
+      message: "What is your engineer's email?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "engineerUsername",
+      message: "What is your engineer's username?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
   ]).then(userChoice => {
     // STUDENT: Make sure the id supplied is unique, then take the data supplied and 
     // instantiate the Engineer constructor.
+    const engineer = new Engineer {
+
+    }
     
     
     // STUDENT: When finished:
@@ -78,7 +223,57 @@ function createEngineer() {
 }
 
 // STUDENT: Now create a function for creating an Intern using the code above as an example
-
+function createIntern() {
+  inquirer.prompt([
+    // STUDENT:  Intern questions
+    {
+      type: "input",
+      name: "internName",
+      message: "What is your intern's name?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "internEmail",
+      message: "What is your intern's email?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "internId",
+      message: "What is your intern's ID?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
+    {
+      type: "input",
+      name: "internSchool",
+      message: "What school does your intern attend?",
+      // Note how the validate function works
+      validate: answer => {
+        if (answer !== "") {
+          return true;
+        }
+        return "Please enter at least one character.";
+      }
+    },
 
 // STUDENT: This function will call the render function required near the top (line 12), 
 // and pass INTO it the teamMembers area; from there, write the HTML returned back to a file 
