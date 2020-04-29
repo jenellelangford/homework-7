@@ -12,70 +12,29 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 // This will be an array of all team member objects created
-const teamMembers = [];
+const teamMembers = ["createTeam", "createManager", "createEngineer", "createIntern"];
 
 // This will be an array of the id values created for each object so there are no duplicates
 const idArray = [];
 
-// start()
-// Do you want to add a team member? If so, choose a type:
-   // Manager, Engineer, Intern, I'm Done
-   function start() {
-    inquirer.prompt([
-      {
-        type: "list",
-        message: "Choose an employee type:",
-        name: "type",
-        choices: [
-          "Manager",
-          "Engineer",
-          "Intern",
-          "Finished"
-        ]
-      }
-    ]).then( response => {
-      if( response.type === "manager" ){
-        createEmployee("manager")
-      }
-    })
+// This function starts team creation.
+function createTeam() {
+  inquirer.prompt([
+    // STUDENT: Ask which type of team member should be created with a list of choices
+  {
+    type: "list",
+    message: "What type of team member would you like to choose?",
+    choices: ["Manager", "Intern", "Engineer", "Finished"],
+    name: "userChoice"
   }
-  // createManager()
-     // ask all the manager questions, when done, go back to start()
-  function createEmployee(employeeType){
-    inquirer.prompt([
-      {
-        type: "input",
-        message: "Enter name:",
-        name: "name"
-      }
-    ]).then( genericResponses => {
-      if( employeeType === "manager" ){
-        createManager(genericResponses)
-      }
-    });
-  }
-  function createManager(genericData){
-    inquirer.prompt([
-      {
-        type: "input",
-        message: "Enter name:",
-        name: "name"
-      }
-    ]).then( response => {
-      // process all the answers
-      const managerObj = new Manager(genericData.name, genericData.email, response.officeNumber  )
-      teamMembers.push(managerObj)
-      start();
-    })
-  }
-  // STUDENT: This function will call the render function required near the top (line 12), 
-  // and pass INTO it the teamMembers area; from there, write the HTML returned back to a file 
-  // in a directory called output.
-  function renderHtmlPage(){
-    const html = render(teamMembers)
-    fs.writeFile("output/index.htnl", html, err => {
-    })
-  }
+  ]).then(userChoice => {
+    // STUDENT: Based on which choice they make, call the correct function to ask more questions.
+    // If no choice is made, then go to the rendering function.
+    if (userChoice.type === "manager") {
+      createTeam("manager")
+    }
+  });
+}
 
 
 // STUDENT: This function generates all the questions for creating the manager. You need to add more to this.
@@ -94,12 +53,11 @@ function createManager(){
         return "Please enter at least one character.";
       }
     },
-  // STUDENT: Add other questions here!
+    // STUDENT: Add other questions here!
     {
       type: "input",
-      name: "managerId",
       message: "What is your manager's ID?",
-      // Note how the validate function works
+      name: "managerId",
       validate: answer => {
         if (answer !== "") {
           return true;
@@ -109,9 +67,8 @@ function createManager(){
     },
     {
       type: "input",
-      name: "managerEmail",
       message: "What is your manager's email?",
-      // Note how the validate function works
+      name: "managerEmail",
       validate: answer => {
         if (answer !== "") {
           return true;
@@ -121,9 +78,8 @@ function createManager(){
     },
     {
       type: "input",
-      name: "managerNumber",
       message: "What is your manager's office number?",
-      // Note how the validate function works
+      name: "managerNumber",
       validate: answer => {
         if (answer !== "") {
           return true;
@@ -133,86 +89,74 @@ function createManager(){
     }
     ]).then(answers => {
       // STUDENT: Process the response by instatiating a new object in the Manager class
-      const manager = new Manager {
+      const manager = new Manager
 
-      }
+      const info = [
+        new Info("managerName"),
+        new Info("managerId"),
+        new Info("managerEmail"),
+        new Info("managerNumber"),
+      ];
+
 
       // Now call the next question set
-      createTeam();
+      createEngineer();
     });
 }
 
-// This function starts team creation.
-function createTeam() {
-  inquirer.prompt([
-    // STUDENT: Ask which type of team member should be created with a list of choices
 
-  ]).then(userChoice => {
-    // STUDENT: Based on which choice they make, call the correct function to ask more questions.
-    // If no choice is made, then go to the rendering function.
-
-
-  });
-}
-
-// This function starts team creation.
+// This function starts engineer creation.
 function createEngineer() {
   inquirer.prompt([
     // STUDENT:  Engineer questions
-    {
-      type: "input",
-      name: "engineerName",
-      message: "What is your engineer's name?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+  {
+    type: "input",
+    name: "engineerName",
+    message: "What is your engineer's name?",
+    // Note how the validate function works
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
-    {
-      type: "input",
-      name: "engineerId",
-      message: "What is your engineer's ID?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+      return "Please enter at least one character.";
+    }
+  },
+  {
+    type: "input",
+    message: "What is your engineer's ID?",
+    name: "engineerId",
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
-    {
-      type: "input",
-      name: "engineerEmail",
-      message: "What is your engineer's email?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+      return "Please enter at least one character.";
+    }
+  },
+  {
+    type: "input",
+    message: "What is your engineer's email?",
+    name: "engineerEmail",
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
-    {
-      type: "input",
-      name: "engineerUsername",
-      message: "What is your engineer's username?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+      return "Please enter at least one character.";
+    }
+  },
+  {
+    type: "input",
+    message: "What is your engineer's GitHub username?",
+    name: "engineerUsername",
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
+      return "Please enter at least one character.";
+    }
+  }
   ]).then(userChoice => {
     // STUDENT: Make sure the id supplied is unique, then take the data supplied and 
     // instantiate the Engineer constructor.
-    const engineer = new Engineer {
-
-    }
     
     
     // STUDENT: When finished:
@@ -223,57 +167,66 @@ function createEngineer() {
 }
 
 // STUDENT: Now create a function for creating an Intern using the code above as an example
+// This function starts Intern creation.
 function createIntern() {
   inquirer.prompt([
     // STUDENT:  Intern questions
-    {
-      type: "input",
-      name: "internName",
-      message: "What is your intern's name?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+  {
+    type: "input",
+    name: "internName",
+    message: "What is your intern's name?",
+    // Note how the validate function works
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
-    {
-      type: "input",
-      name: "internEmail",
-      message: "What is your intern's email?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+      return "Please enter at least one character.";
+    }
+  },
+  {
+    type: "input",
+    message: "What is your interns ID?",
+    name: "internId",
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
-    {
-      type: "input",
-      name: "internId",
-      message: "What is your intern's ID?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+      return "Please enter at least one character.";
+    }
+  },
+  {
+    type: "input",
+    message: "What is your intern's email?",
+    name: "internEmail",
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
-    {
-      type: "input",
-      name: "internSchool",
-      message: "What school does your intern attend?",
-      // Note how the validate function works
-      validate: answer => {
-        if (answer !== "") {
-          return true;
-        }
-        return "Please enter at least one character.";
+      return "Please enter at least one character.";
+    }
+  },
+  {
+    type: "input",
+    message: "Where does your intern attend school?",
+    name: "internSchool",
+    validate: answer => {
+      if (answer !== "") {
+        return true;
       }
-    },
+      return "Please enter at least one character.";
+    }
+  }
+  ]).then(userChoice => {
+    // STUDENT: Make sure the id supplied is unique, then take the data supplied and 
+    // instantiate the Engineer constructor.
+    
+    
+    // STUDENT: When finished:
+       // Add the new object to the team member array
+       // Pass control back to the createTeam() function
+
+  });
+};
 
 // STUDENT: This function will call the render function required near the top (line 12), 
 // and pass INTO it the teamMembers area; from there, write the HTML returned back to a file 
