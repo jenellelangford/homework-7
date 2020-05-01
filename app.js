@@ -157,8 +157,15 @@ function createEngineer() {
   ]).then(userChoice => {
     // STUDENT: Make sure the id supplied is unique, then take the data supplied and 
     // instantiate the Engineer constructor.
+    const engineer = new Engineer
+
+    const engineerInfo = [
+      new Info("engineerName"),
+      new Info("engineerId"),
+      new Info("engineerEmail"),
+      new Info("engineerNumber"),
     
-    
+    ];
     // STUDENT: When finished:
        // Add the new object to the team member array
        // Pass control back to the createTeam() function
